@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Business Operations Agent</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #334155;
+        }
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #60a5fa;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #0f172a;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .result {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #0f172a;
+            border: 1px solid #334155;
+        }
+        .result.show { display: block; }
+        .result h3 {
+            margin-bottom: 0.5rem;
+            color: #a78bfa;
+        }
+        .result pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-approved { background: #065f46; color: #6ee7b7; }
+        .status-escalated { background: #92400e; color: #fcd34d; }
+        .status-rejected { background: #991b1b; color: #fca5a5; }
+        .status-clarify { background: #1e40af; color: #93c5fd; }
+        .status-alternative { background: #5b21b6; color: #c4b5fd; }
+        .health {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        .health-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .health-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .health-dot.ok { background: #22c55e; }
+        .health-dot.fail { background: #ef4444; }
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        .loading.show { display: block; }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #334155;
+            border-top-color: #60a5fa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Business Operations Agent</h1>
+        <p class="subtitle">Automated order processing with AI decision-making</p>
+
+        <div class="card">
+            <h2>System Status</h2>
+            <div class="health">
+                <div class="health-item">
+                    <span class="health-dot ok" id="deepseek-status"></span>
+                    <span>Deepseek LLM</span>
+                </div>
+                <div class="health-item">
+                    <span class="health-dot ok" id="telegram-status"></span>
+                    <span>Telegram</span>
+                </div>
+                <div class="health-item">
+                    <span class="health-dot ok" id="sheets-status"></span>
+                    <span>Google Sheets</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Process Customer Order</h2>
+            <div class="form-group">
+                <label for="customer">Customer Name</label>
+                <input type="text" id="customer" placeholder="John Doe" value="John Doe">
+            </div>
+            <div class="form-group">
+                <label for="message">Customer Message</label>
+                <textarea id="message" placeholder="I want 2 black Basic Shirts"></textarea>
+            </div>
+            <button onclick="processOrder()" id="submit-btn">Process Order</button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>AI is processing your order...</p>
+            </div>
+
+            <div class="result" id="result">
+                <h3>Result</h3>
+                <span class="status" id="result-status"></span>
+                <pre id="result-details"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check health on load
+        fetch('/api/health')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('deepseek-status').className = 'health-dot ' + (data.deepseek_configured ? 'ok' : 'fail');
+                document.getElementById('telegram-status').className = 'health-dot ' + (data.telegram_configured ? 'ok' : 'fail');
+                document.getElementById('sheets-status').className = 'health-dot ' + (data.sheets_configured ? 'ok' : 'fail');
+            });
+
+        async function processOrder() {
+            const message = document.getElementById('message').value;
+            const customer = document.getElementById('customer').value;
+
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+
+            btn.disabled = true;
+            loading.classList.add('show');
+            result.classList.remove('show');
+
+            try {
+                const response = await fetch('/api/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, customer }),
+                });
+
+                const data = await response.json();
+
+                loading.classList.remove('show');
+                result.classList.add('show');
+
+                const statusEl = document.getElementById('result-status');
+                statusEl.textContent = data.status.toUpperCase();
+                statusEl.className = 'status status-' + data.status;
+
+                document.getElementById('result-details').textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                loading.classList.remove('show');
+                alert('Error: ' + err.message);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
