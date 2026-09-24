@@ -1,0 +1,577 @@
+{
+  "name": "Setup - Populate Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "setup-sheets",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "setup-trigger",
+      "name": "Webhook - Setup",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Products",
+        "columns": {
+          "value": {
+            "SKU": "SH-BLK-B",
+            "Product": "Basic Shirt",
+            "Variant": "Black",
+            "Price": "10",
+            "Stock": "20",
+            "Low_Stock_Threshold": "5"
+          }
+        },
+        "options": {}
+      },
+      "id": "add-product-1",
+      "name": "Add Product 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [470, 200]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Products",
+        "columns": {
+          "value": {
+            "SKU": "SH-WHT-B",
+            "Product": "Basic Shirt",
+            "Variant": "White",
+            "Price": "10",
+            "Stock": "18",
+            "Low_Stock_Threshold": "5"
+          }
+        },
+        "options": {}
+      },
+      "id": "add-product-2",
+      "name": "Add Product 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Products",
+        "columns": {
+          "value": {
+            "SKU": "SH-BLK-P",
+            "Product": "Premium Shirt",
+            "Variant": "Black",
+            "Price": "18",
+            "Stock": "5",
+            "Low_Stock_Threshold": "2"
+          }
+        },
+        "options": {}
+      },
+      "id": "add-product-3",
+      "name": "Add Product 3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [470, 400]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Products",
+        "columns": {
+          "value": {
+            "SKU": "SH-WHT-P",
+            "Product": "Premium Shirt",
+            "Variant": "White",
+            "Price": "18",
+            "Stock": "8",
+            "Low_Stock_Threshold": "2"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-product-4",
+      "name": "Add Product 4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [470, 500]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Products",
+        "columns": {
+          "value": {
+            "SKU": "SH-RED-B",
+            "Product": "Basic Shirt",
+            "Variant": "Red",
+            "Price": "10",
+            "Stock": "15",
+            "Low_Stock_Threshold": "5"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-product-5",
+      "name": "Add Product 5",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [470, 600]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Orders",
+        "columns": {
+          "value": {
+            "Order_ID": "ORD-001",
+            "Customer": "John Doe",
+            "Product": "Basic Shirt",
+            "Variant": "Black",
+            "Quantity": "2",
+            "Total_Value": "20",
+            "Status": "approved",
+            "Timestamp": "2026-09-20T10:00:00Z",
+            "Notes": "Auto-approved"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-order-1",
+      "name": "Add Order 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [690, 200]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Orders",
+        "columns": {
+          "value": {
+            "Order_ID": "ORD-002",
+            "Customer": "Jane Smith",
+            "Product": "Premium Shirt",
+            "Variant": "Black",
+            "Quantity": "5",
+            "Total_Value": "90",
+            "Status": "pending",
+            "Timestamp": "2026-09-20T10:05:00Z",
+            "Notes": "Owner approval required"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-order-2",
+      "name": "Add Order 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Customers",
+        "columns": {
+          "value": {
+            "Customer_ID": "CUST-001",
+            "Name": "John Doe",
+            "Phone": "+855-12-345-678",
+            "Telegram_Chat_ID": "1701034938",
+            "Notes": "Regular customer"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-customer-1",
+      "name": "Add Customer 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [690, 400]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Customers",
+        "columns": {
+          "value": {
+            "Customer_ID": "CUST-002",
+            "Name": "Jane Smith",
+            "Phone": "+855-98-765-432",
+            "Telegram_Chat_ID": "987654321",
+            "Notes": "New customer"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-customer-2",
+      "name": "Add Customer 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [690, 500]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Logs",
+        "columns": {
+          "value": {
+            "Log_ID": "LOG-001",
+            "Timestamp": "2026-09-20T10:00:00Z",
+            "Action": "order_approved",
+            "Order_ID": "ORD-001",
+            "Details": "Stock sufficient, value < $100",
+            "Customer_Notified": "yes",
+            "Owner_Notified": "no"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-log-1",
+      "name": "Add Log 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [910, 200]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Logs",
+        "columns": {
+          "value": {
+            "Log_ID": "LOG-002",
+            "Timestamp": "2026-09-20T10:05:00Z",
+            "Action": "owner_escalation",
+            "Order_ID": "ORD-002",
+            "Details": "High value order ($90)",
+            "Customer_Notified": "pending",
+            "Owner_Notified": "yes"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-log-2",
+      "name": "Add Log 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [910, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Logs",
+        "columns": {
+          "value": {
+            "Log_ID": "LOG-003",
+            "Timestamp": "2026-09-20T10:10:00Z",
+            "Action": "alternative_suggested",
+            "Order_ID": "ORD-003",
+            "Details": "Insufficient stock, offered white variant",
+            "Customer_Notified": "yes",
+            "Owner_Notified": "no"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-log-3",
+      "name": "Add Log 3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [910, 400]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Logs",
+        "columns": {
+          "value": {
+            "Log_ID": "LOG-004",
+            "Timestamp": "2026-09-20T10:15:00Z",
+            "Action": "clarification_requested",
+            "Order_ID": "ORD-004",
+            "Details": "Product not found in inventory",
+            "Customer_Notified": "yes",
+            "Owner_Notified": "no"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-log-4",
+      "name": "Add Log 4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [910, 500]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Logs",
+        "columns": {
+          "value": {
+            "Log_ID": "LOG-005",
+            "Timestamp": "2026-09-20T10:20:00Z",
+            "Action": "order_rejected",
+            "Order_ID": "ORD-005",
+            "Details": "No suitable alternative available",
+            "Customer_Notified": "yes",
+            "Owner_Notified": "no"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-log-5",
+      "name": "Add Log 5",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [910, 600]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Business Rules",
+        "columns": {
+          "value": {
+            "Rule_ID": "R001",
+            "Rule_Name": "Auto-approve low value",
+            "Condition": "total_value < 100 AND stock >= quantity",
+            "Action": "approve",
+            "Priority": "1"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-rule-1",
+      "name": "Add Rule 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [1130, 200]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Business Rules",
+        "columns": {
+          "value": {
+            "Rule_ID": "R002",
+            "Rule_Name": "Escalate high value",
+            "Condition": "total_value >= 100",
+            "Action": "escalate",
+            "Priority": "2"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-rule-2",
+      "name": "Add Rule 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [1130, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Business Rules",
+        "columns": {
+          "value": {
+            "Rule_ID": "R003",
+            "Rule_Name": "Suggest alternative",
+            "Condition": "stock < quantity AND alternative exists",
+            "Action": "suggest_alternative",
+            "Priority": "3"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-rule-3",
+      "name": "Add Rule 3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [1130, 400]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Business Rules",
+        "columns": {
+          "value": {
+            "Rule_ID": "R004",
+            "Rule_Name": "Clarify unknown product",
+            "Condition": "product not found",
+            "Action": "clarify",
+            "Priority": "4"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-rule-4",
+      "name": "Add Rule 4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [1130, 500]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Business Rules",
+        "columns": {
+          "value": {
+            "Rule_ID": "R005",
+            "Rule_Name": "Reject no alternative",
+            "Condition": "no suitable product",
+            "Action": "reject",
+            "Priority": "5"
+          }
+        },
+        "options": {}
+
+      },
+      "id": "add-rule-5",
+      "name": "Add Rule 5",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [1130, 600]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "✅ All sheets populated successfully!",
+        "options": {}
+      },
+      "id": "respond-setup",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1350, 400]
+    }
+  ],
+  "connections": {
+    "Webhook - Setup": {
+      "main": [
+        [
+          { "node": "Add Product 1", "type": "main", "index": 0 },
+          { "node": "Add Product 2", "type": "main", "index": 0 },
+          { "node": "Add Product 3", "type": "main", "index": 0 },
+          { "node": "Add Product 4", "type": "main", "index": 0 },
+          { "node": "Add Product 5", "type": "main", "index": 0 },
+          { "node": "Add Order 1", "type": "main", "index": 0 },
+          { "node": "Add Order 2", "type": "main", "index": 0 },
+          { "node": "Add Customer 1", "type": "main", "index": 0 },
+          { "node": "Add Customer 2", "type": "main", "index": 0 },
+          { "node": "Add Log 1", "type": "main", "index": 0 },
+          { "node": "Add Log 2", "type": "main", "index": 0 },
+          { "node": "Add Log 3", "type": "main", "index": 0 },
+          { "node": "Add Log 4", "type": "main", "index": 0 },
+          { "node": "Add Log 5", "type": "main", "index": 0 },
+          { "node": "Add Rule 1", "type": "main", "index": 0 },
+          { "node": "Add Rule 2", "type": "main", "index": 0 },
+          { "node": "Add Rule 3", "type": "main", "index": 0 },
+          { "node": "Add Rule 4", "type": "main", "index": 0 },
+          { "node": "Add Rule 5", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Add Product 1": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Product 2": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Product 3": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Product 4": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Product 5": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Order 1": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Order 2": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Customer 1": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Customer 2": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Log 1": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Log 2": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Log 3": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Log 4": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Log 5": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Rule 1": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Rule 2": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Rule 3": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Rule 4": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    },
+    "Add Rule 5": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "setup" }
+  ]
+}

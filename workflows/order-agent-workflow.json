@@ -1,0 +1,208 @@
+{
+  "name": "AI Small Business Operations Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "order-request",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook - Customer Order",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Products",
+        "options": {}
+      },
+      "id": "read-inventory",
+      "name": "Read Inventory",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "model": "deepseek-chat",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an AI order processing agent. Extract from the customer message: product name, variant, quantity, and intent. Respond in JSON: {\"product\": \"name\", \"variant\": \"variant or null\", \"quantity\": number, \"intent\": \"order|inquiry\", \"confidence\": 0.0-1.0}"
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.body.message || $json.body }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.1,
+          "maxTokens": 500
+        }
+      },
+      "id": "extract-intent",
+      "name": "AI - Extract Order Intent",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.2,
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "model": "deepseek-chat",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an AI decision agent. Business rules:\n1. Auto-approve if total < $100 AND stock sufficient\n2. Escalate if total >= $100\n3. Suggest alternative if stock insufficient but alternative exists\n4. Clarify if product not found\n5. Reject if no alternative\n\nInventory: {{ $json.inventory }}\nOrder: {{ $json.order }}\n\nRespond in JSON: {\"action\": \"approve|escalate|suggest_alternative|clarify|reject\", \"reason\": \"explanation\", \"customer_message\": \"response\"}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.2,
+          "maxTokens": 800
+        }
+      },
+      "id": "decide-action",
+      "name": "AI - Decide Action",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.2,
+      "position": [910, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.GOOGLE_SHEET_ID }}",
+        "sheetName": "Orders",
+        "columns": {
+          "value": {
+            "order_id": "={{ $json.order_id }}",
+            "customer": "={{ $json.customer }}",
+            "product": "={{ $json.product }}",
+            "quantity": "={{ $json.quantity }}",
+            "total_value": "={{ $json.total_value }}",
+            "status": "={{ $json.action }}",
+            "timestamp": "={{ $now.toISO() }}",
+            "notes": "={{ $json.reason }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "create-order",
+      "name": "Create Order Record",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [1130, 300]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "chatId": "={{ $env.TELEGRAM_CHAT_ID }}",
+        "text": "={{ $json.customer_message || $json.reason }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "telegram-customer",
+      "name": "Notify Customer",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.1,
+      "position": [1350, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Customer",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1570, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Customer Order": {
+      "main": [
+        [
+          {
+            "node": "Read Inventory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Inventory": {
+      "main": [
+        [
+          {
+            "node": "AI - Extract Order Intent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI - Extract Order Intent": {
+      "main": [
+        [
+          {
+            "node": "AI - Decide Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI - Decide Action": {
+      "main": [
+        [
+          {
+            "node": "Create Order Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Order Record": {
+      "main": [
+        [
+          {
+            "node": "Notify Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Customer": {
+      "main": [
+        [
+          {
+            "node": "Respond to Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "ai-agent"
+    }
+  ]
+}
