@@ -269,7 +269,7 @@ ngrok http 5678
 | 6 | Implementation screenshots | 📸 To capture |
 | 7 | Sample execution (input and output) | ✅ Section 9 |
 | 8 | Video demo link | 🎥 To record |
-| 9 | Project link (n8n workflow) | ✅ workflows/order-agent-workflow.json |
+| 9 | Project link (GitHub repository) | ✅ https://github.com/mengchheanglong/business-operations-agent |
 
 ## 12. Requirements Verification
 
