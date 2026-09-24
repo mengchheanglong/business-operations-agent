@@ -1,0 +1,37 @@
+[
+  {
+    "scenario": "Scenario 1: Normal order (auto-approve)",
+    "message": "I want 2 black Basic Shirts",
+    "result": {
+      "status": "approved",
+      "order_id": "ORD-B94D74AD",
+      "total": 20
+    }
+  },
+  {
+    "scenario": "Scenario 2: Large order (escalate to owner)",
+    "message": "I need 12 black Basic Shirts",
+    "result": {
+      "status": "escalated",
+      "order_id": "ORD-1434B6E7",
+      "total": 120
+    }
+  },
+  {
+    "scenario": "Scenario 3: Insufficient stock (suggest alternative)",
+    "message": "I want 25 black Basic Shirts",
+    "result": {
+      "status": "alternative_suggested",
+      "order_id": "ORD-02692FB9",
+      "total": 250
+    }
+  },
+  {
+    "scenario": "Scenario 4: Unknown product (clarify)",
+    "message": "Do you have blue jeans?",
+    "result": {
+      "status": "clarify",
+      "order_id": "ORD-82D6DABA"
+    }
+  }
+]
